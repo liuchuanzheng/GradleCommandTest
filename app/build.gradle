@@ -4,6 +4,14 @@ apply plugin: 'com.android.application'
 
 android {
     //程序编译用的AndroidSDK版本
+    signingConfigs {
+        release {
+            keyAlias 'androidfl'
+            keyPassword 'feiliu2017'
+            storeFile file('H:/gitcangku/sdk-u3d-plugins/keys.qzgs/AndroidFLMobile_v2.keystore')
+            storePassword 'feiliu2017'
+        }
+    }
     compileSdkVersion 26
     // defaultConfig就是程序的默认配置，注意，如果在AndroidMainfest.xml里面定义了
     // 与这里相同的属性，会以这里的为主。
@@ -33,12 +41,17 @@ android {
             minifyEnabled false
             //混淆使用的配置文件。
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //设置签名文件。具体配置在project structure中配置。
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
         }
     }
 }
 //gradle 的依赖配置。它定义了当前项目需要依赖的其他库。
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
