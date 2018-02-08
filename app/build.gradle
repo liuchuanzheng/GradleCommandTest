@@ -1,0 +1,56 @@
+//apply plugin:第一行代码应用了Android 程序的gradle插件，作为Android 的应用程序，
+// 这一步是必须的，因为plugin中提供了Android 编译、测试、打包等等的所有task。
+apply plugin: 'com.android.application'
+
+android {
+    //程序编译用的AndroidSDK版本
+    compileSdkVersion 26
+    // defaultConfig就是程序的默认配置，注意，如果在AndroidMainfest.xml里面定义了
+    // 与这里相同的属性，会以这里的为主。
+    defaultConfig {
+        //这里最有必要要说明的是applicationId的选项：在我们曾经定义的AndroidManifest.xml中，
+        // 那里定义的包名有两个用途：一个是作为程序的唯一识别ID,防止在同一手机装两个一样的程序；
+        // 另一个就是作为我们R资源类的包名。在以前我们修改这个ID会导致所有用引用R资源类的地方都要修改。
+        // 但是现在我们如果修改applicationId只会修改当前程序的ID,而不会去修改源码中资源文件的引用。
+        //意思就是AndroidManifest.xml主管R资源引用，applicationId主管程序的唯一识别ID
+        applicationId "com.liuchuanzheng.gradlecommandtest"
+        //程序编译出来后能安装到手机的最小Android版本
+        minSdkVersion 15
+        //程序调试适配的最高版本。也就是说程序员要保证此版本之前的新特性要适配好，如果程序安装到了此版本的手机
+        //上就会使用新特性。再高的手机版本上就不会使用新特性。
+        targetSdkVersion 26
+        //标识程序版本号，代码识别用的。
+        versionCode 1
+        //同样标识程序版本号。是给用户看的，没有实际意义。
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    //定义了编译类型，针对每个类型我们可以有不同的编译配置，
+    //不同的编译配置对应的有不同的编译命令。默认的有debug、release 的类型。
+    buildTypes {
+        release {
+            //是否混淆
+            minifyEnabled false
+            //混淆使用的配置文件。
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+//gradle 的依赖配置。它定义了当前项目需要依赖的其他库。
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
+
+//一些小命令
+//命令都是gradlew开头的。因为我们的命令是执行工程的gradlew.bat文件
+//gradlew tasks 列出所有task
+//gradlew tasks --all 列出所有task,内容更详细一些
+//gradlew assemble 对所有的 buildType 生成 apk 包。
+//gradlew clean  移除所有的编译输出文件，指成成的build文件夹下的内容，里边有apk等文件。
+//gradlew build  同gradlew assemble类似，多了一些检查
+//gradlew assembleDebug 只生成debug的apk。 可修改生成对应apk
