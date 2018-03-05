@@ -3,7 +3,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    //程序编译用的AndroidSDK版本
+
     signingConfigs {
         release {
             keyAlias 'androidfl'
@@ -12,6 +12,7 @@ android {
             storePassword 'feiliu2017'
         }
     }
+    //程序编译用的AndroidSDK版本
     compileSdkVersion 26
     // defaultConfig就是程序的默认配置，注意，如果在AndroidMainfest.xml里面定义了
     // 与这里相同的属性，会以这里的为主。
@@ -50,6 +51,7 @@ android {
     }
 }
 //gradle 的依赖配置。它定义了当前项目需要依赖的其他库。
+//组名:库名称:版本号
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
